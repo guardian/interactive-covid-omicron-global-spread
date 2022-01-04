@@ -58,7 +58,7 @@ const mesh = geo.append("path")
 .attr("d", path)
 .attr("class", "border")
 
-const colors = ['#dadada','#FBE5AB', '#F5BE2C', '#ED6300', '#CC0A11'];
+const colors = ['#dadada','#faab9a ', '#ef816b', '#df533e', '#cc0a11'];
 const buckets = ['No data',1,10,100,1000]
 
 let colorScale = d3.scaleThreshold()
@@ -92,9 +92,9 @@ d3.json('https://interactive.guim.co.uk/docsdata/1R97UAH9-C9zscL6qimP_GwpuDZaHSA
 
 		let value = +d['#GR/484A (B.1.1.529) in past 4 weeks'];
 
-		console.log(colorScale(value))
-
 	})
+
+	console.log(data)
 
 	data.forEach(d => {
 
@@ -105,12 +105,28 @@ d3.json('https://interactive.guim.co.uk/docsdata/1R97UAH9-C9zscL6qimP_GwpuDZaHSA
 		geoMatch.properties['%GR/484A (B.1.1.529) in past 4 weeks'] = +d['%GR/484A (B.1.1.529) in past 4 weeks'];
 		geoMatch.properties['Last updated'] = d['Last updated'];
 
+
+		let geoPath = map.selectAll('.' + d.ISO_A3).node()
+
+		if(+geoPath.getBoundingClientRect().width < 11 && +geoPath.getBoundingClientRect().height < 11)
+		{
+
+			let centroid =  path.centroid(filtered.find(f => f.properties.ISO_A3 === d.ISO_A3))
+			
+			map.append('circle')
+			.attr('class', d.ISO_A3)
+			.attr('r', 4)
+			.attr('cx', centroid[0])
+			.attr('cy', centroid[1])
+			.style('stroke', '#fff')
+		}
+
+
 		map.selectAll('.' + d.ISO_A3)
 		.style('fill', colorScale(+d['Total #GR/484A (B.1.1.529)']))
 
 	})
 
-	console.log(furniture[0])
 	header.html(furniture[0].Headline)
 	footer.html(furniture[0].Source)
 
