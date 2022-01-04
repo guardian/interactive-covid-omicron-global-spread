@@ -58,12 +58,17 @@ const mesh = geo.append("path")
 .attr("d", path)
 .attr("class", "border")
 
-const colors = ['#dadada','#faab9a ', '#ef816b', '#df533e', '#cc0a11'];
-const buckets = ['No data',1,10,100,1000]
+
+const colors = ['#dadada','#F1BCBE', '#E89093', '#DF6368', '#D5373C', '#CC0A11'];
+const buckets = ['No data',1,10,100,1000,10000]
+
+/*const colors = ['#dadada','#FBE5AB', '#F5BE2C', '#ED6300', '#CC0A11', '#8B156C'];
+const buckets = ['No data',1,10,100,1000,10000]*/
+
 
 let colorScale = d3.scaleThreshold()
 .range(colors)
-.domain([1,10,100,1000]);
+.domain([1,10,100,1000,10000]);
 
 colors.forEach((d,i) => {
 
